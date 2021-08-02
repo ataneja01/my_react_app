@@ -1,0 +1,22 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 140%;
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.hero-btn {
+  display: inline-block;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 30px;
+  background: transparent;
+  text-decoration: none;
+}
+
+.hero-btn:hover {
+  background: #f44336;
+  border: 1px solid #f44336;
+  transition: 1s;
+}
