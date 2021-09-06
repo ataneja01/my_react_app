@@ -1,18 +1,18 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Footer from "./components/common/Footer/Footer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./components/pages/Home";
+import Home from "./pages/Home/Home";
+import Admission from "./pages/Admission/Admission";
 
 
 function App() {
   return (
     <>
       <Router>
-        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/admission" component={Admission} />
         </Switch>
       </Router>
       <Footer />
