@@ -1,6 +1,6 @@
 import React from "react";
 import "./HeroSection.css";
-import "./style.css";
+import "./../style.css";
 import { Link } from "react-router-dom";
 
 function HeroSection() {
