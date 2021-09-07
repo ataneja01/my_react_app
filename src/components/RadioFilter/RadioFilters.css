@@ -1,0 +1,26 @@
+.radio-filters__wrapper {
+    display: flex;
+    margin: 12px 0;
+}
+
+.radio-filters__input {
+    display: none;
+}
+
+.radio-filters__label--checked {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.radio-filters__label {
+    border: 1px solid rgba(0, 0, 0, 0.67);
+    padding: 16px 0;
+    text-align: center;
+    font-size: 0.875rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.radio-filters__label:not(:last-child) {
+    margin-right: 12px;
+}

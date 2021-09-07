@@ -1,112 +1,124 @@
-import AdmissionHeader from "../../components/AdmissionHeader/AdmissionHeader";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import "../../components/style.css";
-import React, { useEffect } from 'react';
-import "./Admission.css";
-import { useState } from "react";
-import Courses from "../../components/Courses/Courses";
-import RadioFilter from "../../components/RadioFilter/RadioFilter";
+import AdmissionHeader from '../../components/AdmissionHeader/AdmissionHeader';
+import SearchForm from '../../components/SearchForm/SearchForm';
+import '../../components/style.css';
+import React, {useEffect, useState} from 'react';
+import './Admission.css';
+import Courses from '../../components/Courses/Courses';
+import RadioFilters from '../../components/RadioFilter/RadioFilters';
+import Dropdown from '../../components/Dropdown/Dropdown';
+import { COURSES, GENERIC_COURSE_TYPE } from '../../constants/course-data.js';
 
-function Admission () {
-    useEffect(() => {
-        document.body.classList.add('admission-body');
+function Admission() {
+  useEffect(() => {
+    document.body.classList.add('admission-body');
+  });
+
+  const [courseQuery, setCourseQuery] = useState('');
+  const [coursePeriod, setCoursePeriod] = useState('Summer 2021');
+  const [courseType, setCourseType] = useState('both');
+  const [courses, setCourses] = useState(COURSES);
+
+  const defaultCourses = COURSES;
+
+  const searchCourses = (searchText, semester) => {
+    const filteredCourses = defaultCourses.filter(course => {
+      const isMatchedBySemester = course.period.toUpperCase().includes(semester.toUpperCase());
+      const isMatchedBySubject = course.subjectArea.toUpperCase().includes(searchText.toUpperCase());
+
+      return isMatchedBySemester && isMatchedBySubject;
     });
 
-    const [courseQuery, setCourseQuery] = useState(''); 
-    const [coursePeriod, setCoursePeriod] = useState('Summer 2021');
-    const [courseType, setCourseType] = useState('both');
-    const [courses, setCourses] = useState([  
-      {id:1, title: "Masters Program in Computer Science", period: "Summer 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-123"},
-      {id:2, title: "Masters Program in Software Engineering", period: "Summer 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-124"},
-      {id:3, title: "Masters Program in Telecommunication Systems", period: "Autumn 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "75%", teachingForm: "Program", applicationCode: "EUA-125"},
-      {id:4, title: "User Experience Design", period: "Summer 2021", level: "Bachelor's", subjectArea: "Computer Science", paceOfStudy: "75%", teachingForm: "Course", applicationCode: "EUA-126"},
-      {id:5, title: "Evolutionary Biology", period: "Autumn 2021", level: "Master's", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Course", applicationCode: "EUA-127"},
-      {id:6, title: "Cell and Developmental Biology", period: "Autumn 2021", level: "Bachelor's", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-128"},
-      {id:7, title: "Human Physiology", period: "Summer 2021", level: "Beginner", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Course", applicationCode: "EUA-129"}
-    ]); 
+    setCourses(filteredCourses);
+  };
 
-    const defaultCourses = [  
-      {id:1, title: "Masters Program in Computer Science", period: "Summer 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-123"},
-      {id:2, title: "Masters Program in Software Engineering", period: "Summer 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-124"},
-      {id:3, title: "Masters Program in Telecommunication Systems", period: "Autumn 2021", level: "Master's", subjectArea: "Computer Science", paceOfStudy: "75%", teachingForm: "Program", applicationCode: "EUA-125"},
-      {id:4, title: "User Experience Design", period: "Summer 2021", level: "Bachelor's", subjectArea: "Computer Science", paceOfStudy: "75%", teachingForm: "Course", applicationCode: "EUA-126"},
-      {id:5, title: "Evolutionary Biology", period: "Autumn 2021", level: "Master's", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Course", applicationCode: "EUA-127"},
-      {id:6, title: "Cell and Developmental Biology", period: "Autumn 2021", level: "Bachelor's", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Program", applicationCode: "EUA-128"},
-      {id:7, title: "Human Physiology", period: "Summer 2021", level: "Beginner", subjectArea: "Biology", paceOfStudy: "Full-time", teachingForm: "Course", applicationCode: "EUA-129"}
-    ];  
+  const filterCoursesByType = selectedType => {
+    if (selectedType === GENERIC_COURSE_TYPE) {
+      setCourses(defaultCourses);
+    } else {
+      const filteredCoursesAfterRadioFilter = defaultCourses.filter(course => {
+        return course.teachingForm.toLowerCase().includes(selectedType);
+      });
 
-    const searchCourses = (searchText, semester) => {  
-        var filteredCourses = defaultCourses.filter(course => ((course.period.toUpperCase().indexOf(semester.toUpperCase()) != -1) && (course.subjectArea.toUpperCase().indexOf(searchText.toUpperCase()) != -1)));
-        setCourses(filteredCourses); 
-       
-     };  
+      setCourses(filteredCoursesAfterRadioFilter);
+    }
+  };
+  return (
+    <>
+      <AdmissionHeader/>
 
-     const filterCoursesAfterRadioFilter = (courseT) => {
-       var filteredCoursesAfterRadioFilter = courses.filter(course => 
-        (course.teachingForm.toUpperCase().indexOf(courseT.toUpperCase()) != -1));
-       setCourses(filteredCoursesAfterRadioFilter); 
-      };
-      return (
-        <> 
-            <AdmissionHeader />
+      <SearchForm
+        courseQuery={courseQuery}
+        setCourseQuery={setCourseQuery}
+        coursePeriod={coursePeriod}
+        setCoursePeriod={setCoursePeriod}
+        searchCourses={searchCourses}
+      />
 
-            <SearchForm
-                courseQuery={courseQuery}
-                setCourseQuery={setCourseQuery}
-                coursePeriod={coursePeriod} 
-                setCoursePeriod={setCoursePeriod}
-                searchCourses={searchCourses}
+      <section className="main-content content">
+        <form id="search-form" className="search-form">
+          <div className="filter-top">
+            <h2 className="column-heading">Filter</h2>
+            <button type="button" id="reset" className="reset text-button">Reset</button>
+          </div>
+
+          <fieldset className="group">
+            <legend className="group-label">Both courses and programs</legend>
+
+            <RadioFilters
+              courseType={courseType}
+              setCourseType={setCourseType}
+              filterCoursesAfterRadioFilter={filterCoursesByType}
             />
+          </fieldset>
 
-            <section class="main-content content">
-                    <form id="search-form" class="search-form">
-                        <div class="filter-top">
-                            <h2 class="column-heading">Filter</h2>
-                            <button type="button" id="reset" class="reset text-button">Reset</button>
-                        </div>
-                        <fieldset class="group">
-                            <legend class="group-label">Both courses and programs</legend>
-                            
-                            <RadioFilter
-                                courseType={courseType} 
-                                setCourseType={setCourseType}
-                                filterCoursesAfterRadioFilter={filterCoursesAfterRadioFilter}
-                            />
+          <div className="horizontalLine" />
 
-                        </fieldset>
-                        <div class="horizontalLine"></div>
-                        <fieldset class="group">
-                            <legend class="group-label">Course level</legend>
-                            <div class="checkbox-row">
-                                <label class="checkbox-container">Beginner level
-                                    <input type="checkbox" id="basicLevel" name="level" value="beginner" class="level-checkbox"></input>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <i class="fas fa-question-circle tooltip">
-                                    <span class="tooltiptext">You do not need previous higher education studies but must have successfully completed upper secondary studies.</span>
-                                </i>
-                                <div class="tooltip"></div>
-                            </div>
-                            <div class="checkbox-row">
-                                <label class="checkbox-container">Bachelor's level
-                                    <input type="checkbox" id="mediumLevel" name="level" value="bachelor" class="level-checkbox"></input>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <i class="fas fa-question-circle tooltip">
-                                    <span class="tooltiptext">You must have successfully completed upper secondary studies.</span>
-                                </i>
-                                <div class="tooltip"></div>
-                            </div>
-                            </fieldset>
-                        </form>
-                        <div class="search-result" id = "search-result">
-                          <Courses courses={courses} /> 
-                        </div>
-            </section>
+          <fieldset className="group">
+            <legend className="group-label">Course level</legend>
 
-            
-      </>
-    );
+            <div className="checkbox-row">
+              <label className="checkbox-container">Beginner level
+                <input type="checkbox" id="basicLevel" name="level" value="beginner" className="level-checkbox" />
+                <span className="checkmark" />
+              </label>
+
+              <i className="fas fa-question-circle tooltip">
+                <span className="tooltiptext">You do not need previous higher education studies but must have successfully completed upper secondary studies.</span>
+              </i>
+
+              <div className="tooltip" />
+            </div>
+
+            <div className="checkbox-row">
+              <label className="checkbox-container">Bachelor's level
+                <input type="checkbox" id="mediumLevel" name="level" value="bachelor" className="level-checkbox" />
+                <span className="checkmark" />
+              </label>
+
+              <i className="fas fa-question-circle tooltip">
+                <span className="tooltiptext">You must have successfully completed upper secondary studies.</span>
+              </i>
+
+              <div className="tooltip" />
+            </div>
+          </fieldset>
+
+          <fieldset className="group">
+            <Dropdown
+              dropdownValue="some value"
+              setDropdownValue={() => {
+                alert('some value');
+              }}
+            />
+          </fieldset>
+        </form>
+
+        <div className="search-result" id="search-result">
+          <Courses courses={courses}/>
+        </div>
+      </section>
+    </>
+  );
 }
 
 export default Admission;
