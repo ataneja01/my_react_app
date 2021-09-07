@@ -1,49 +1,53 @@
 import React from "react";
-import Dropdown from "../Dropdown/Dropdown";
 import "./SearchForm.css";
+import Dropdown from "../Dropdown/Dropdown";
 import "../style.css";
-import { useRef } from "react";
 
-function SearchForm( { courseQuery, setCourseQuery, coursePeriod, setCoursePeriod, searchCourses } ) {
-   function handleClick() {
-        searchCourses(courseQuery, coursePeriod );
-    }
-    return (
-        <div>
-            <form id="search" className="course-search" method="get" action="">
-                <div className="content">
-                    <div className="search-area">
-                        <div class="dropdown search-area-element">
-                            <select class="semester-dropdown" name="period" id="period" 
-                            onChange={(event) => {  
-                                setCoursePeriod(event.target.value);
-                            }}>
-                            <option selected value="Summer 2021">Summer 2021</option>
-                            <option value="Autumn 2021">Autumn 2021</option>
-                            </select>
-                            <label htmlFor="period" class="dropdown-label">Semester</label>
-                            </div>
-                         <div className="text-search search-area-element">
-                         <input 
-                            type="search" 
-                            id="freeText"
-                            class="search-input"
-                            value={courseQuery}  
-                            placeholder="subject/course"  
-                            onChange={(event) => {  
-                                setCourseQuery(event.target.value);
-                            }}/>  
-                        </div>
-                        <div className = "search-btn-wrapper">
-                            <button className="hero-btn hero-btn--red hero-btn--search" type="button" id="search-btn" 
-                            onClick={handleClick}
-                             >Find courses</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+function SearchForm({courseQuery, setCourseQuery, coursePeriod, setCoursePeriod, searchCourses}) {
+  function handleClick() {
+    searchCourses(courseQuery, coursePeriod);
+  }
+
+  return (
+    <div>
+      <form id="search" className="course-search" method="get" action="">
+        <div className="content">
+          <div className="search-area">
+            <div className="dropdown search-area-element">
+              <Dropdown
+                dropdownValue={coursePeriod}
+                setDropdownValue={setCoursePeriod}
+              />
+            </div>
+
+            <div className="text-search search-area-element">
+              <input
+                type="search"
+                id="freeText"
+                className="search-input"
+                value={courseQuery}
+                placeholder="subject/course"
+                onChange={(event) => {
+                  setCourseQuery(event.target.value);
+                }}
+              />
+            </div>
+
+            <div className="search-btn-wrapper">
+              <button
+                id="search-btn"
+                className="hero-btn hero-btn--red hero-btn--search"
+                type="button"
+                onClick={handleClick}
+              >
+                Find courses
+              </button>
+            </div>
+          </div>
         </div>
-    )
+      </form>
+    </div>
+  )
 }
 
 export default SearchForm;

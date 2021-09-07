@@ -1,19 +1,20 @@
 import React from "react";
 import "./Navbar.css";
 import logo from "../../../images/logo.png";
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+// import { Link, NavLink } from "react-router-dom";
 
 
 function Navbar() {
     const navLinks = useRef();
-    const div1 = navLinks.current;
-    const Results = () => (
-        <div id="navLinks" className="nav-Links">
-        </div>
-      )
-      
+    // const div1 = navLinks.current;
+    // const Results = () => (
+    //     <div id="navLinks" className="nav-Links">
+    //     </div>
+    //   )
+
       return (
         <nav className="navbar">
             <Link to="/">

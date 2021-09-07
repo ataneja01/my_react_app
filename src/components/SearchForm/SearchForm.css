@@ -19,14 +19,14 @@
     width: 100%;
     padding: 16px 12px;
   }
-  
+
   .search-btn-wrapper {
     flex-basis: 25%;
     margin-top: 16px;
     margin-left: 12px;
-    
+
   }
-  
+
   .hero-btn--search {
     width: 100%;
     cursor: pointer;
@@ -54,4 +54,9 @@
   .content {
     margin-top: 16px;
     padding: 2% 4%;
+  }
+
+  .semester-dropdown {
+    padding: 16px 12px;
+    width: 100%;
   }
